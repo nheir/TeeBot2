@@ -23,7 +23,9 @@ class Chat:
                         bot.say(split[1].rstrip("\n"))
                     else:
                         pass
-        if "/stats" == msg.decode():
+        if msg.decode().startswith("/stats"):
+            if msg.decode().split[1:]:
+                id = int(msg.decode().split()[1])
             tee = bot.get_Tee(id)
             bot.say("Player: " + tee.get_nick().decode('utf-8'))
             bot.say("Largest killing spree: " + str(tee.largest_spree))

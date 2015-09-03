@@ -25,7 +25,6 @@ import time
 
 import Tees
 import Events_TeeBot
-from config import accesslog
 from config import nick
 
 class TeeBot(object):
@@ -167,25 +166,12 @@ class TeeBot(object):
                 tee.score = event[4]
                 tee.ip = event[1]
                 tee.port = event[2]
-                if old_ip != tee.ip:
-                    with open(accesslog, "a", encoding="utf-8") as accesslogi:
-                        time1 = time.strftime("%c", time.localtime())
-                        accesslogi.write("[{}] ".format(time1) + "{} joined the server ({})".format(tee.nick.decode(),
-                                                                                                    tee.ip.decode()) + "\n")
-                else:
-                    pass
         except AttributeError as e:
             self.debug("Error: {0}".format(e), "CRITICAL")
         except KeyError as e:
             self.debug(
                 "Didn't find Tee: {} in player lists, adding it now:".format(event[3].decode()),
                 "PLAYER")
-            with open(accesslog, "a", encoding="utf-8") as accesslogi:
-                nick = event[3]
-                ip = event[1]
-                time1 = time.strftime("%c", time.localtime())
-                accesslogi.write(
-                    "[{}] ".format(time1) + "{} joined the server ({})".format(nick.decode(), ip.decode()) + "\n")
             self.teelst.add_Tee(event[0], event[3], event[1], event[2],
                                 event[-1], 0)  # id, name, ip, port, score
         return self.teelst.get_TeeLst()

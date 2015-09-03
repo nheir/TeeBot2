@@ -26,11 +26,9 @@ import TeeBot
 from config import password
 from config import port
 from config import hostname
-from config import banned_nicks
-from config import accesslog
-from config import chatlog
-from config import commands
 import plugin_loader
+
+import traceback
 
 bot = TeeBot.TeeBot(hostname, port, password) #Moved hostname, port and password to config file.
 con = bot.connect
@@ -62,17 +60,8 @@ while True:
                 if event[-1] == "STATUS MESSAGE":
                     nick = event[3]
                     ide = event[0]
-                    if nick.decode() in banned_nicks:
-                        bot.writeLine("kick {0}".format(ide.decode()))
                     lista = bot.updTeeList(event)
                 if event[-1] == "LEAVE":
-                    with open(accesslog, "a", encoding="utf-8") as accesslogi:
-                        tee = bot.get_Tee(event[0])
-                        nick = tee.nick
-                        ip = tee.ip
-                        time1 = time.strftime("%c", time.localtime())
-                        accesslogi.write(
-                            "[{}] ".format(time1) + "{} left the server ({})".format(nick.decode(), ip.decode()) + "\n")
                     bot.debug("{} has left the game.".format(bot.get_Leaves(event[0]).decode()), "PLAYER")
                     bot.writeLine("status")
                     tees = len(bot.get_Teelista().keys())
@@ -84,4 +73,5 @@ while True:
                 pass
     except (KeyError, TypeError, AttributeError, NameError, UnicodeDecodeError) as e:
         bot.debug("We got an error 1: {0}".format(e), "CRITICAL")
+        print(traceback.print_exc())
         bot.writeLine("status")
