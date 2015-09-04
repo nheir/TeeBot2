@@ -54,7 +54,6 @@ while True:
                 if event[-1] == "RELOAD ORDER":
                     bot.debug("Reloaded plugins", "DEBUG")
                     importlib.reload(plugin_loader)
-                pl_loader.event_handler(event)
                 if event[-1] == "NICK CHANGE":
                     bot.writeLine("status")
                 if event[-1] == "STATUS MESSAGE":
@@ -67,6 +66,7 @@ while True:
                     tees = len(bot.get_Teelista().keys())
                     if tees == 0:
                         bot.writeLine("restart")
+                pl_loader.event_handler(event)
                 else:
                     pass
             else:

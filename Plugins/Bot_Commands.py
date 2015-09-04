@@ -49,7 +49,7 @@ class BotTelnet(object):
 
 class BotCommands:
     def __init__(self):
-        self.handle_events = ["CHAT","CONNECTING", "LEAVE"]
+        self.handle_events = ["CHAT","STATUS MESSAGE"]
         self.initialize()
 
     def initialize(self):
@@ -69,7 +69,7 @@ class BotCommands:
             for t in bot_list:
                 bot.writeLine("set_team %d 1" % t.id)
 
-    def connecting(self, event, bot):
+    def update(self, event, bot):
         bc = len([ t for t in bot.get_Teelista().values() if t.ip == b"127.0.0.1" ])
         pc = len([ t for t in bot.get_Teelista().values() if t.ip != b"127.0.0.1" ])
         print(bc,pc)
@@ -79,8 +79,7 @@ class BotCommands:
         while pc > 0 and bc < bot_numbers and bc+pc < bot_threshold:
             self.bots[bc].join()
             bc += 1
-    def leave(self, event, bot):
-        if len([ t for t in bot.get_Teelista().values() if t.ip != "127.0.0.1" ]) == 0:
+        if not pc:
             for bot in self.bots:
                 bot.leave()
 
@@ -88,8 +87,6 @@ class BotCommands:
     def handle(self, event, bot):
         if event[-1] == "CHAT":
             self.chat(event,bot)
-        if event[-1] == "CONNECTING":
-            self.connecting(event, bot)
-        if event[-1] == "LEAVE":
-            self.leave(event, bot)
+        if event[-1] == "STATUS MESSAGE":
+            self.update(event, bot)
 
