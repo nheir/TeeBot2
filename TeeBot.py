@@ -160,20 +160,20 @@ class TeeBot(object):
         #     self.debug("Error: {0}".format(e), "CRITICAL")
         try:
             tee = self.teelst.get_Tee(event[0])
-            if tee.get_nick().decode() != event[3].decode():
-                old_ip = tee.ip
+            if not tee:
+                self.debug(
+                "Didn't find Tee: {} in player lists, adding it now:".format(event[3].decode()),
+                "PLAYER")
+                self.teelst.add_Tee(event[0], event[3], event[1], event[2],
+                                event[-1], 0)  # id, name, ip, port, score
+            elif tee.get_nick().decode() != event[3].decode():
                 tee.nick = event[3]
                 tee.score = event[4]
                 tee.ip = event[1]
                 tee.port = event[2]
         except AttributeError as e:
             self.debug("Error: {0}".format(e), "CRITICAL")
-        except KeyError as e:
-            self.debug(
-                "Didn't find Tee: {} in player lists, adding it now:".format(event[3].decode()),
-                "PLAYER")
-            self.teelst.add_Tee(event[0], event[3], event[1], event[2],
-                                event[-1], 0)  # id, name, ip, port, score
+            
         return self.teelst.get_TeeLst()
 
     def get_Leaves(self, ide):
