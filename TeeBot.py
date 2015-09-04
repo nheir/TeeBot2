@@ -177,8 +177,11 @@ class TeeBot(object):
         return self.teelst.get_TeeLst()
 
     def get_Leaves(self, ide):
-        nick = self.teelst.get_Tee(ide).nick
-        self.teelst.rm_Tee(ide)
+        tee = self.teelst.get_Tee(ide)
+        nick = '<>'
+        if tee:
+            nick = tee.nick
+            self.teelst.rm_Tee(ide)
         return nick
 
     def get_Chat(self, line):

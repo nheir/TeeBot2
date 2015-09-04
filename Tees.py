@@ -31,7 +31,9 @@ class Tees(object):
         self.teelst[tee.idnum] = tee
 
     def get_Tee(self, player_id):
-        return self.teelst[player_id]
+        if player_id in self.teelst:
+            return self.teelst[player_id]
+        return None
 
     def rm_Tee(self, player_id):
         del self.teelst[player_id]
