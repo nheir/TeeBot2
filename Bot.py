@@ -62,7 +62,7 @@ while True:
                     ide = event[0]
                     lista = bot.updTeeList(event)
                 if event[-1] == "LEAVE":
-                    bot.debug("{} has left the game.".format(bot.get_Leaves(event[0]).decode()), "PLAYER")
+                    bot.debug("{} has left the game.".format(bot.get_Leaves(event[0])), "PLAYER")
                     bot.writeLine("status")
                     tees = len(bot.get_Teelista().keys())
                     if tees == 0:
