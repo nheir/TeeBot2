@@ -67,8 +67,6 @@ while True:
                     if tees == 0:
                         bot.writeLine("restart")
                 pl_loader.event_handler(event)
-                else:
-                    pass
             else:
                 pass
     except (KeyError, TypeError, AttributeError, NameError, UnicodeDecodeError) as e:
