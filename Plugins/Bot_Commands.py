@@ -41,9 +41,11 @@ class BotTelnet(object):
                 self.initialize()
 
     def join(self):
+        print(self.port, 'join')
         self.writeLine('connect 127.0.0.1:%d' % (server_port,))
 
     def leave(self):
+        print(self.port, 'leave')
         self.writeLine('disconnect')
 
 
